@@ -69,7 +69,7 @@
 <script setup>
 import { Form, Field } from 'vee-validate';
 import { loginRequestSchema } from '@src/validation-schema/authValidationSchema';
-import FormInputErrorMessage from '@src/components/FormInputErrorMessage.vue';
+import FormInputErrorMessage from '@src/components/global/FormInputErrorMessage.vue';
 
 
 const loginHandle = async(values, actions) => {
