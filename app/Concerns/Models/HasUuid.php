@@ -57,26 +57,14 @@ trait HasUuid
     }
 
     /**
-     * Get the original auto-incrementing ID column value if needed.
+     * Get the UUID as publishable key if UUID enabled otherwise id will be passed
      *
-     * @return int
+     * @return string
      */
-    public function getId(): int
+    public function getId(): ?string
     {
-        return $this->attributes['id'];
-    }
-
-    /**
-     * Get the UUID.
-     *
-     * @return string|int
-     */
-    public function getUuid(): ?string
-    {
-        if ($this->isUuidEnabled()) {
-            return $this->attributes[$this->getUuidColumnName()] ?? $this->getId();
-        }
-
-        return $this->getId();
+        return $this->isUuidEnabled()
+            ? ($this->attributes[$this->getUuidColumnName()] ?? $this->attributes['id'])
+            : $this->attributes['id'];
     }
 }
