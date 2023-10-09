@@ -15,12 +15,16 @@ router.beforeEach(async (to, from, next) => {
   const authStore = useAuthStore();
   const bearerToken = localStorage.getItem('bearer_token');
 
+  if(to.name !== 'login' && !bearerToken){
+    return redirectToRoute('login');
+  }
+
   if(bearerToken){
     await authStore.authorization();
   }
 
   // Redirect to dashboard or any route if user has session
-  if(to.name == 'login' && authStore.isLoggedIn){
+  if(to.name == 'login' && bearerToken && authStore.user){
     return to.query.redirectFrom != undefined 
           ? redirectToRoute(to.query.redirectFrom) 
           : redirectToRoute('dashboard');
