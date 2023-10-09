@@ -1,13 +1,11 @@
 import './bootstrap';
 import '../css/app.css';
-import { createPinia } from 'pinia';
 import router from "@src/router";
+import pinia from "@src/store";
 import { createApp } from 'vue';
 import App from '@src/App.vue'
+import setAxiosAuthHeader from '@src/utils/setAxiosAuthHeader';
 
-const pinia = createPinia();
-const app = createApp(App);
+setAxiosAuthHeader();
 
-app.use(pinia)
-    .use(router)
-    .mount('#app')
+createApp(App).use(pinia).use(router).mount('#app');
