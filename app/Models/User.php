@@ -6,6 +6,7 @@ namespace App\Models;
 
 use App\Concerns\Models\HasUuid;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
@@ -42,4 +43,12 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
+
+    /**
+     * Get the authentication logs of the user.
+     */
+    public function authentication_logs(): HasMany
+    {
+        return $this->hasMany(AuthenticationLog::class);
+    }
 }

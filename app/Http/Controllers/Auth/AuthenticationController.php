@@ -8,6 +8,7 @@ use App\Http\Requests\Auth\LoginRequest;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\ValidationException;
 use Illuminate\Auth\AuthenticationException;
+use Illuminate\Auth\Events\Logout;
 
 class AuthenticationController extends Controller
 {
@@ -22,7 +23,7 @@ class AuthenticationController extends Controller
         try {
             $credentials = $request->validated();
 
-            if (!Auth::once($credentials)) {
+            if (!Auth::attempt($credentials)) {
                 throw new AuthenticationException('The credentials do not match our records');
             }
 
@@ -53,6 +54,8 @@ class AuthenticationController extends Controller
         try {
             $request->user()->currentAccessToken()->delete();
 
+            event(new Logout('sanctum', auth()->user()));
+                     
             return response()->json(['message' => 'You have successfully logged out']);
         } catch (\Exception $e) {
             throw $e;
