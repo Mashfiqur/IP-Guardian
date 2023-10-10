@@ -19,7 +19,7 @@ router.beforeEach(async (to, from, next) => {
     return redirectToRoute('login');
   }
 
-  if(bearerToken){
+  if(bearerToken && !authStore.user){
     await authStore.authorization();
   }
 

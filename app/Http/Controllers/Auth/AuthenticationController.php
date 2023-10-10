@@ -51,14 +51,10 @@ class AuthenticationController extends Controller
      */
     public function logout(Request $request)
     {
-        try {
-            $request->user()->currentAccessToken()->delete();
+        $request->user()->currentAccessToken()->delete();
 
-            event(new Logout('sanctum', auth()->user()));
-                     
-            return response()->json(['message' => 'You have successfully logged out']);
-        } catch (\Exception $e) {
-            throw $e;
-        }
+        event(new Logout('sanctum', auth()->user()));
+                    
+        return response()->json(['message' => 'You have successfully logged out']);
     }
 }

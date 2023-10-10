@@ -3,6 +3,7 @@
 namespace App\Concerns\Models;
 
 use Illuminate\Support\Str;
+use Illuminate\Database\Eloquent\Builder;
 
 trait HasUuid
 {
@@ -66,5 +67,31 @@ trait HasUuid
         return $this->isUuidEnabled()
             ? ($this->attributes[$this->getUuidColumnName()] ?? $this->attributes['id'])
             : $this->attributes['id'];
+    }
+
+    /**
+     * Scope a query to find a record by its UUID.
+     *
+     * @param \Illuminate\Database\Eloquent\Builder $query
+     * @param string $uuid
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeFindByUuid(Builder $query, string $uuid)
+    {
+        return $query->where($this->getUuidColumnName(), $uuid)->first();
+    }
+
+    /**
+     * Scope a query to find a record by its UUID or fail if not found.
+     *
+     * @param \Illuminate\Database\Eloquent\Builder $query
+     * @param string $uuid
+     * @return \Illuminate\Database\Eloquent\Builder
+     *
+     * @throws \Illuminate\Database\Eloquent\ModelNotFoundException
+     */
+    public function scopeFindByUuidOrFail(Builder $query, string $uuid)
+    {
+        return $query->where($this->getUuidColumnName(), $uuid)->firstOrFail();
     }
 }

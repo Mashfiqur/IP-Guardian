@@ -23,9 +23,9 @@ class CreateAuthenticationLog
     {
         try {
             $log = [
-                'user_id' => $user->id,
-                'ip_address' => $request->ip(),
-                'user_agent' => $request->userAgent(),
+                'user_id'       => $user->id,
+                'ip_address'    => $request->ip(),
+                'user_agent'    => $request->userAgent(),
             ];
 
             if ($type === 1) {

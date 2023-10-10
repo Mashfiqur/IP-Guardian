@@ -11,16 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('authentication_logs', function (Blueprint $table) {
+        Schema::create('ip_addresses', function (Blueprint $table) {
             $table->id();
             $table->string(config('uuid.column'))->nullable()->unique()->index();
-            $table->foreignId('user_id')
-                ->constrained()
-                ->cascadeOnDelete();
-            $table->ipAddress('ip_address')->nullable();
-            $table->text('user_agent')->nullable();
-            $table->timestamp('login_at')->nullable();
-            $table->timestamp('logout_at')->nullable();
+            $table->string('label')->nullable();
+            $table->ipAddress('ip')->unique()->index();
+            $table->text('comment')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });
@@ -31,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('authentication_logs');
+        Schema::dropIfExists('ip_addresses');
     }
 };
