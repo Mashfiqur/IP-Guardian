@@ -31,6 +31,15 @@ export default [
                     authRequired: true,
                 },
             },
+            {
+                path: "/my-profile",
+                name: "my-profile",
+                component: () => import("@src/views/auth/my-profile/Index.vue"),
+                meta: {
+                    title: 'My Profile',
+                    authRequired: true,
+                },
+            },
         ],
     }
 ];

@@ -10,8 +10,11 @@ export const useAuthStore = defineStore({
     user: null,
   }),
   actions: {
-    async resetAuthStore(){
+    resetAuthStore(){
       this.user = null;
+    },
+    setUserName(name){
+      this.user.name = name;
     },
     async login(payload) {
       const errorStore = useErrorStore();

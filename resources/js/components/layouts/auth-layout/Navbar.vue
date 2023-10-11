@@ -1,14 +1,10 @@
 <template>
     <header class="flex items-center h-20 px-6 sm:px-10 bg-white">
-        <div 
-            @mouseenter="showProfileMenu = true"
-            @mouseleave="showProfileMenu = false"
-            class="flex flex-shrink-0 items-center ml-auto"
-        >
+        <div @mouseenter="showProfileMenu = true" @mouseleave="showProfileMenu = false"
+            class="flex flex-shrink-0 items-center ml-auto">
             <button class="relative inline-flex items-center p-2 hover:bg-gray-100 focus:bg-gray-100 rounded-lg">
                 <div class="hidden md:flex md:flex-col md:items-end md:leading-tight">
-                    <span class="font-semibold">Mashfiqur Rahman</span>
-                    <span class="text-sm text-gray-600">Software Engineer</span>
+                    <span class="font-semibold text-gray-600">{{ authStore.user.name }}</span>
                 </div>
                 <span class="h-12 w-12 ml-2 sm:ml-3 mr-2 bg-gray-100 rounded-full overflow-hidden">
                     <img class="h-full w-full object-cover" src="@src/assets/avatar.png" alt="logo">
@@ -21,7 +17,8 @@
                 </svg>
             </button>
             <div class="absolute top-[72px] bg-white border rounded-md p-2 w-[250px]" v-if="showProfileMenu">
-                <div class="p-2 hover:bg-blue-100 cursor-pointer">My Profile</div>
+                <div class="p-2 hover:bg-blue-100 cursor-pointer" @click="router.push({ name: 'my-profile' })">My Profile
+                </div>
                 <div class="p-2 hover:bg-blue-100 cursor-pointer" @click="authStore.logout">Logout</div>
             </div>
         </div>
@@ -31,6 +28,7 @@
 <script setup>
 import { ref } from 'vue';
 import { useAuthStore } from '@src/store/auth';
+import router from '@src/router';
 
 // Initiate store
 const authStore = useAuthStore();
