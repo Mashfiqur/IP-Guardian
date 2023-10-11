@@ -17,8 +17,15 @@ class AuthenticatedUserController extends Controller
      */
     public function __invoke(Request $request): JsonResponse
     {
-        $user = $request->user();
+        // This controller is responsible for providing information about the authenticated user.
 
-        return response()->json(['user' => new UserBasicResource($user)]);
+        // We can customize the data that we send to the frontend here, such as:
+        // - App configuration settings that are relevant to the user.
+        // - User-specific permissions and roles, which can be used to control frontend behavior.
+        // - Any other user-specific data needed for bootstrapping frontend settings.
+
+        return response()->json([
+            'user' => new UserBasicResource($request->user())
+        ]);
     }
 }
