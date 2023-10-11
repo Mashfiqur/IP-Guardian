@@ -32,6 +32,33 @@ export default [
                 },
             },
             {
+                path: "/ip-addresses/create",
+                name: "ip-address.create",
+                component: () => import("@src/views/auth/ip-address/CreateEditIPAddress.vue"),
+                meta: {
+                    title: 'Create IP Address',
+                    authRequired: true,
+                },
+            },
+            {
+                path: "/ip-addresses/:id",
+                name: "ip-address.show",
+                component: () => import("@src/views/auth/ip-address/Show.vue"),
+                meta: {
+                    title: 'Show IP Address',
+                    authRequired: true,
+                },
+            },
+            {
+                path: "/ip-addresses/:id/edit",
+                name: "ip-address.edit",
+                component: () => import("@src/views/auth/ip-address/CreateEditIPAddress.vue"),
+                meta: {
+                    title: 'Edit IP Address',
+                    authRequired: true,
+                },
+            },
+            {
                 path: "/my-profile",
                 name: "my-profile",
                 component: () => import("@src/views/auth/my-profile/Index.vue"),

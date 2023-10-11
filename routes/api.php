@@ -22,7 +22,7 @@ Route::post('login', [AuthenticationController::class, 'login']);
 Route::middleware('auth:sanctum')->group(function () {
     Route::post('logout', [AuthenticationController::class, 'logout']);
 
-    Route::get('user', AuthenticatedUserController::class);
+    Route::get('authenticate', AuthenticatedUserController::class);
 
     Route::controller(UserProfileController::class)->group(function (){
         Route::get('me', 'index');

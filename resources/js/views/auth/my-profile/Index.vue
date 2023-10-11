@@ -101,13 +101,12 @@ const profileUpdateHandle = async (values, actions) => {
 
         setIsLoading(false);
 
-        const { errorCode, errorMessage, formErrors } = errorStore;
-
-        if (errorCode === 422 && formErrors.length) {
-            actions.setErrors(formErrors);
-        } else if (errorMessage) {
-            setProfileUpdateError(errorMessage);
-        }
+        if (errorStore.errorCode === 422) {
+            actions.setErrors(errorStore.formErrors);
+        } 
+        else if (errorStore.errorCode !== 422 && errorStore.errorMessage) {
+            setProfileUpdateError(errorStore.errorMessage);
+        } 
     } catch (e) {
         setProfileUpdateError(e.message);
         setIsLoading(false);

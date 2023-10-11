@@ -21,6 +21,6 @@ export default {
      * @returns {*}
      */
     authorize() {
-        return axios.get(`/user`);
+        return axios.get(`/authenticate`);
     },
 }

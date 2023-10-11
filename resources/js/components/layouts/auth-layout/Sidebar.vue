@@ -22,14 +22,6 @@
                     </svg>
                     <span class="ml-2">IP Address</span>
                 </router-link>
-                <router-link to="/my-profile" active-class="active-link"
-                    class="inline-flex items-center py-3 hover:text-gray-400 hover:bg-gray-700 focus:text-gray-400 focus:bg-gray-700 rounded-lg px-2">
-                    <svg aria-hidden="true" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="h-6 w-6">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
-                    </svg>
-                    <span class="ml-2">My Profile</span>
-                </router-link>
             </nav>
         </div>
     </aside>
