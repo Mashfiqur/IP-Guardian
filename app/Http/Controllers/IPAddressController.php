@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\AuditableModel\AuditableModelCreated;
+use App\Events\AuditableModel\AuditableModelUpdated;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\IPAddress\StoreIPAddressRequest;
@@ -45,6 +47,8 @@ class IPAddressController extends Controller
 
         $ipAddress = $this->ipAddressModel->create( $validateds );
 
+        event(new AuditableModelCreated($ipAddress, auth()->user()));
+
         return new IPAddressResource($ipAddress);
     }
 
@@ -64,6 +68,20 @@ class IPAddressController extends Controller
         return new IPAddressResource($ipAddress);
     }
 
+    /**
+     * Edit the specified resource.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function edit($id)
+    {
+        $ipAddress = $this->ipAddressModel->findByUuidOrFail($id);
+
+        return new IPAddressResource($ipAddress);
+    }
 
     /**
      * Update the specified resource in storage.
@@ -74,12 +92,16 @@ class IPAddressController extends Controller
      */
     public function update(UpdateIPAddressRequest $request, $id) 
     {
-        $validateds = $request->validated();
-
         $ipAddress = $this->ipAddressModel->findByUuidOrFail($id);
 
-        $ipAddress->update($validateds);
+        $previousIpAddress = clone $ipAddress;
 
-        return new IPAddressResource($ipAddress);
+        $ipAddress->update($request->validated());
+
+        $updatedIpAddress = $ipAddress->refresh();
+
+        event(new AuditableModelUpdated($previousIpAddress, $updatedIpAddress, auth()->user()));
+
+        return new IPAddressResource($updatedIpAddress);
     }
 }

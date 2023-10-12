@@ -17,20 +17,43 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::post('login', [AuthenticationController::class, 'login']);
+// ================================LOGIN ROUTE================================
+Route::post(
+    'login',
+    [AuthenticationController::class, 'login']
+);
+
+// ================================AUTHENTICATED ROUTES================================
 
 Route::middleware('auth:sanctum')->group(function () {
-    Route::post('logout', [AuthenticationController::class, 'logout']);
+    Route::post(
+        'logout',
+        [AuthenticationController::class, 'logout']
+    );
 
-    Route::get('authenticate', AuthenticatedUserController::class);
+    Route::get(
+        'authenticate',
+        AuthenticatedUserController::class
+    );
 
-    Route::controller(UserProfileController::class)->group(function (){
-        Route::get('me', 'index');
-        Route::post('me', 'update');
+    // ================================USER PROFILE ROUTES================================
+    Route::controller(UserProfileController::class)->group(function () {
+        Route::get(
+            'me',
+            'index'
+        );
+
+        Route::post(
+            'me',
+            'update'
+        );
     });
 
-    // IP Address Routes
-    Route::resource('ip-addresses', IPAddressController::class)->only([
-        'index', 'store', 'show', 'update'
+    // ================================IP Address Routes================================
+    Route::resource(
+        'ip-addresses',
+        IPAddressController::class
+    )->only([
+        'index', 'store', 'show', 'edit', 'update'
     ])->parameters(['ip-addresses' => 'id']);
 });

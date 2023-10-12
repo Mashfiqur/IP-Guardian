@@ -2,6 +2,10 @@
 
 namespace App\Providers;
 
+use App\Events\AuditableModel\AuditableModelCreated;
+use App\Events\AuditableModel\AuditableModelUpdated;
+use App\Listeners\AuditableModel\ModelCreatedAuditListener;
+use App\Listeners\AuditableModel\ModelUpdatedAuditListener;
 use App\Listeners\Auth\LoginSuccessfulListener;
 use App\Listeners\Auth\LogoutSuccessfulListener;
 use Illuminate\Auth\Events\Login;
@@ -27,6 +31,12 @@ class EventServiceProvider extends ServiceProvider
         ],
         Logout::class => [
             LogoutSuccessfulListener::class,
+        ],
+        AuditableModelCreated::class => [
+            ModelCreatedAuditListener::class
+        ],
+        AuditableModelUpdated::class => [
+            ModelUpdatedAuditListener::class
         ],
     ];
 
