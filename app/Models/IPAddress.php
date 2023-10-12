@@ -52,4 +52,19 @@ class IPAddress extends Model
     {
         return $this->morphMany(AuditLog::class, 'loggable');
     }
+
+    protected function scopeFilter($query){
+        return $query
+            ->when(request('status') == 2, function ($query) { 
+                // status: 1=Active, 2==Trash
+                $query->onlyTrashed();
+            })
+            ->when(request('query'), function ($query){
+                $query->whereLike(['ip', 'label', 'comment'], request('query'));
+            })
+            ->orderBy(
+                request('sort_by_column', 'created_at'),
+                request('sort_by_order', 'DESC'),
+            );
+    }
 }

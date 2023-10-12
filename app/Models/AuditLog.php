@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Concerns\Model\HasUuid;
 use App\Enums\AuditLogActionTypeEnum;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
@@ -44,5 +45,13 @@ class AuditLog extends Model
     public function loggable(): MorphTo
     {
         return $this->morphTo();
+    }
+
+    /**
+     * Get the user who created the authentication log.
+     */
+    public function actioned_by_user(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'actioned_by');
     }
 }

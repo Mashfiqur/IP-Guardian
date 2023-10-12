@@ -18,10 +18,12 @@ use Illuminate\Support\Facades\Route;
 */
 
 // ================================LOGIN ROUTE================================
+// Applied Rate Limiting to the API.
+// Maximum 3 Requests in One minute
 Route::post(
     'login',
     [AuthenticationController::class, 'login']
-);
+)->middleware('throttle:3,1');
 
 // ================================AUTHENTICATED ROUTES================================
 

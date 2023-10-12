@@ -29,6 +29,7 @@ class IPAddressController extends Controller
     public function index(Request $request) 
     {
         $ipAddresses = $this->ipAddressModel->query()
+                ->filter()
                 ->paginate(request('per_page'), ['*'], 'page', request('page'));
 
         return IPAddressResource::collection($ipAddresses);
@@ -63,7 +64,11 @@ class IPAddressController extends Controller
      */
     public function show($id)
     {
-        $ipAddress = $this->ipAddressModel->findByUuidOrFail($id);
+        $ipAddress = $this->ipAddressModel
+                    ->with([
+                        'audit_logs.actioned_by_user',
+                    ])
+                    ->findByUuidOrFail($id);
 
         return new IPAddressResource($ipAddress);
     }
