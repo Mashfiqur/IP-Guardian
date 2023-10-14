@@ -1,10 +1,11 @@
 <?php
 
-use App\Http\Controllers\AuditLogController;
+use App\Http\Controllers\AuditLog\AuditLogController;
 use App\Http\Controllers\Auth\AuthenticationController;
 use App\Http\Controllers\Auth\AuthenticatedUserController;
 use App\Http\Controllers\Auth\UserProfileController;
-use App\Http\Controllers\IPAddressController;
+use App\Http\Controllers\AuthenticationLog\AuthenticationLogController;
+use App\Http\Controllers\IPAddress\IPAddressController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -38,6 +39,14 @@ Route::middleware('auth:sanctum')->group(function () {
         'authenticate',
         AuthenticatedUserController::class
     );
+
+    // ================================Authentication Log Routes================================
+    Route::controller(AuthenticationLogController::class)->group(function () {
+        Route::get(
+            'authentication-logs',
+            'index'
+        );
+    });
 
     // ================================USER PROFILE ROUTES================================
     Route::controller(UserProfileController::class)->group(function () {

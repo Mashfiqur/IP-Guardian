@@ -5,12 +5,18 @@ namespace App\Models;
 use App\Concerns\AuditableModel\Auditable;
 use App\Concerns\Model\Filterable;
 use App\Concerns\Model\HasUuid;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class IPAddress extends Model
 {
+    /**
+     * Provide mock data creation functionality for testing
+     */
+    use HasFactory;
+
     /**
      * Provide soft delete related functionality
      */

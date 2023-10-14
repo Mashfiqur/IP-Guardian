@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\IPAddress;
 
 use App\Events\AuditableModel\AuditableModelCreated;
 use App\Events\AuditableModel\AuditableModelUpdated;
