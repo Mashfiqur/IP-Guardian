@@ -2,8 +2,9 @@
 
 namespace App\Models;
 
+use App\Concerns\Model\Filterable;
 use App\Concerns\Model\HasUuid;
-use App\Enums\AuditLogActionTypeEnum;
+use App\Enums\AuditLog\AuditLogActionTypeEnum;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
@@ -21,6 +22,16 @@ class AuditLog extends Model
      */
     use HasUuid;
 
+     /**
+     * Provide filtering from request
+    */
+    use Filterable;
+
+    /**
+     * Table name
+     *
+     * @var string
+     */
     protected $table = 'audit_logs';
 
     /**

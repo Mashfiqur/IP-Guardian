@@ -1,6 +1,6 @@
 <?php
   
-namespace App\Enums;
+namespace App\Enums\AuditLog;
  
 enum AuditLogActionTypeEnum:int
 {

@@ -19,7 +19,11 @@ class AuthenticationLog extends Model
      */
     use HasUuid;
 
-
+    /**
+     * Table name
+     *
+     * @var string
+     */
     protected $table = 'authentication_logs';
 
     /**

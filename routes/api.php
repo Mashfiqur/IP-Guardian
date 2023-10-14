@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AuditLogController;
 use App\Http\Controllers\Auth\AuthenticationController;
 use App\Http\Controllers\Auth\AuthenticatedUserController;
 use App\Http\Controllers\Auth\UserProfileController;
@@ -58,4 +59,13 @@ Route::middleware('auth:sanctum')->group(function () {
     )->only([
         'index', 'store', 'show', 'edit', 'update'
     ])->parameters(['ip-addresses' => 'id']);
+
+    // ================================Audit Log Routes================================
+    Route::controller(AuditLogController::class)->group(function () {
+        Route::get(
+            'audit-logs',
+            'index'
+        );
+    });
+    
 });

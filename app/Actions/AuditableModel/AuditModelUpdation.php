@@ -2,7 +2,7 @@
 
 namespace App\Actions\AuditableModel;
 
-use App\Enums\AuditLogActionTypeEnum;
+use App\Enums\AuditLog\AuditLogActionTypeEnum;
 use App\Models\AuditLog;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Model;

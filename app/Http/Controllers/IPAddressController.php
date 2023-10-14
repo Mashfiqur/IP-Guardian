@@ -10,14 +10,15 @@ use App\Http\Requests\IPAddress\StoreIPAddressRequest;
 use App\Http\Requests\IPAddress\UpdateIPAddressRequest;
 use App\Http\Resources\IPAddress\IPAddressResource;
 use App\Models\IPAddress;
+use App\QueryFilters\IpAddress\IpAddressFilter;
 
 class IPAddressController extends Controller 
 {
 
-    protected $ipAddressModel;
+    protected $resourceModel;
 
-    public function __construct(IPAddress  $ipAddressModel) {
-        $this->ipAddressModel = $ipAddressModel;
+    public function __construct(IPAddress  $resourceModel) {
+        $this->resourceModel = $resourceModel;
     }
 
     /**
@@ -26,10 +27,14 @@ class IPAddressController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request) 
+    public function index(Request $request)
     {
-        $ipAddresses = $this->ipAddressModel->query()
-                ->filter()
+        $ipAddresses = $this->resourceModel
+                ->filter(new IpAddressFilter($request))
+                ->orderBy(
+                    request('order_by_column', 'created_at'),
+                    request('order_direction', 'DESC'),
+                )
                 ->paginate(request('per_page'), ['*'], 'page', request('page'));
 
         return IPAddressResource::collection($ipAddresses);
@@ -46,7 +51,7 @@ class IPAddressController extends Controller
     {
         $validateds = $request->validated();
 
-        $ipAddress = $this->ipAddressModel->create( $validateds );
+        $ipAddress = $this->resourceModel->create( $validateds );
 
         event(new AuditableModelCreated($ipAddress, auth()->user()));
 
@@ -64,7 +69,7 @@ class IPAddressController extends Controller
      */
     public function show($id)
     {
-        $ipAddress = $this->ipAddressModel
+        $ipAddress = $this->resourceModel
                     ->with([
                         'audit_logs.actioned_by_user',
                     ])
@@ -83,7 +88,7 @@ class IPAddressController extends Controller
      */
     public function edit($id)
     {
-        $ipAddress = $this->ipAddressModel->findByUuidOrFail($id);
+        $ipAddress = $this->resourceModel->findByUuidOrFail($id);
 
         return new IPAddressResource($ipAddress);
     }
@@ -97,7 +102,7 @@ class IPAddressController extends Controller
      */
     public function update(UpdateIPAddressRequest $request, $id) 
     {
-        $ipAddress = $this->ipAddressModel->findByUuidOrFail($id);
+        $ipAddress = $this->resourceModel->findByUuidOrFail($id);
 
         $previousIpAddress = clone $ipAddress;
 

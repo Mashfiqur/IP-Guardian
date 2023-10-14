@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Concerns\AuditableModel\Auditable;
+use App\Concerns\Model\Filterable;
 use App\Concerns\Model\HasUuid;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
@@ -15,19 +16,26 @@ class IPAddress extends Model
      */
     use SoftDeletes;
 
-
     /**
      * Provide UUID
     */
     use HasUuid;
 
+    /**
+     * Provide filtering from request
+    */
+    use Filterable;
 
     /**
      * Audit Events(Create, Update, Soft Delete, Restore, Delete )
     */
     use Auditable;
 
-
+    /**
+     * Table name
+     *
+     * @var string
+     */
     protected $table = 'ip_addresses';
 
     /**
@@ -51,20 +59,5 @@ class IPAddress extends Model
     public function audit_logs(): MorphMany
     {
         return $this->morphMany(AuditLog::class, 'loggable');
-    }
-
-    protected function scopeFilter($query){
-        return $query
-            ->when(request('status') == 2, function ($query) { 
-                // status: 1=Active, 2==Trash
-                $query->onlyTrashed();
-            })
-            ->when(request('query'), function ($query){
-                $query->whereLike(['ip', 'label', 'comment'], request('query'));
-            })
-            ->orderBy(
-                request('sort_by_column', 'created_at'),
-                request('sort_by_order', 'DESC'),
-            );
-    }
+    }    
 }
