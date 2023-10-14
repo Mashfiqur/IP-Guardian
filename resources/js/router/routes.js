@@ -59,6 +59,24 @@ export default [
                 },
             },
             {
+                path: "/authentication-logs",
+                name: "authentication-logs",
+                component: () => import("@src/views/auth/authentication-log/Index.vue"),
+                meta: {
+                    title: 'Authentication Log',
+                    authRequired: true,
+                },
+            },
+            {
+                path: "/audit-logs",
+                name: "audit-logs",
+                component: () => import("@src/views/auth/audit-log/Index.vue"),
+                meta: {
+                    title: 'Audit Log',
+                    authRequired: true,
+                },
+            },
+            {
                 path: "/my-profile",
                 name: "my-profile",
                 component: () => import("@src/views/auth/my-profile/Index.vue"),

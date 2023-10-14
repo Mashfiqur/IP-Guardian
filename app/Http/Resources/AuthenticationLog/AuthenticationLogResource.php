@@ -19,8 +19,8 @@ class AuthenticationLogResource extends JsonResource {
             'ip_address'        => $this->ip_address,
             'user_agent'        => $this->user_agent,
             'user'              => new UserBasicResource($this->whenLoaded('user')),
-            'login_at'          => date('Y-m-d h:i A', strtotime($this->login_at)),
-            'logout_at'         => date('Y-m-d h:i A', strtotime($this->logout_at)),
+            'login_at'          => $this->login_at ? date('Y-m-d h:i A', strtotime($this->login_at)) : null,
+            'logout_at'         => $this->logout_at ? date('Y-m-d h:i A', strtotime($this->logout_at)) : null,
         ];
     }
 }

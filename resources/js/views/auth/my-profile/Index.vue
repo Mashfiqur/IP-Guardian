@@ -1,5 +1,5 @@
 <template>
-    <div class="flex items-center justify-between p-4">
+    <div class="flex items-center justify-between py-4">
         <h1 class="text-lg font-semibold">My Profile</h1>
     </div>
     <Form class="space-y-4 md:space-y-6" @submit="profileUpdateHandle" :validation-schema="profileUpdateSchema" v-slot="{ errors }">

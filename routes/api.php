@@ -5,6 +5,7 @@ use App\Http\Controllers\Auth\AuthenticationController;
 use App\Http\Controllers\Auth\AuthenticatedUserController;
 use App\Http\Controllers\Auth\UserProfileController;
 use App\Http\Controllers\AuthenticationLog\AuthenticationLogController;
+use App\Http\Controllers\Dashboard\DashboardController;
 use App\Http\Controllers\IPAddress\IPAddressController;
 use Illuminate\Support\Facades\Route;
 
@@ -61,6 +62,7 @@ Route::middleware('auth:sanctum')->group(function () {
         );
     });
 
+
     // ================================IP Address Routes================================
     Route::resource(
         'ip-addresses',
@@ -68,6 +70,14 @@ Route::middleware('auth:sanctum')->group(function () {
     )->only([
         'index', 'store', 'show', 'edit', 'update'
     ])->parameters(['ip-addresses' => 'id']);
+
+
+    // ================================Dashboard Routes================================
+    Route::prefix('dashboard')->controller(DashboardController::class)->group(function(){
+        Route::get('overview', 'overview');
+        Route::get('recent-logins', 'get_recent_login');
+    });
+
 
     // ================================Audit Log Routes================================
     Route::controller(AuditLogController::class)->group(function () {
