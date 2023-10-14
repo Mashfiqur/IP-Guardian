@@ -20,9 +20,9 @@ class AuthenticationController extends Controller
      */
     public function login(LoginRequest $request)
     {
-        try {
-            $credentials = $request->validated();
+        $credentials = $request->validated();
 
+        try {
             if (!Auth::attempt($credentials)) {
                 throw new AuthenticationException('The credentials do not match our records');
             }
@@ -38,8 +38,6 @@ class AuthenticationController extends Controller
             ]);
         } catch (AuthenticationException $e) {
             throw ValidationException::withMessages(['password' => $e->getMessage()]);
-        } catch (\Exception $e) {
-            throw $e;
         }
     }
 
