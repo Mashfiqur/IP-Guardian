@@ -4,7 +4,6 @@ namespace Database\Seeders;
 
 use App\Models\User;
 use Database\Seeders\Base\BaseTableSeeder;
-use Illuminate\Support\Facades\Hash;
 
 class UsersTableSeeder extends BaseTableSeeder
 {
@@ -21,8 +20,13 @@ class UsersTableSeeder extends BaseTableSeeder
      * @var array
      */
     protected $data = [
-    	['Mashfiqur Rahman', "mashfiqurrr@gmail.com", "!sss#@%ddvfkwewi@1"],
-    	['SH Sakif', "sakif@gmail.com", "!sss#@%dfkwewi@1"],
+    	['Admin 1', "admin1@email.com", "!sss#@%ddavfkwewi@1"],
+    	['Admin 2', "admin2@email.com", "!ss#@%dfkwtyssewi@1"],
+    	['Admin 3', "admin3@email.com", "!sd#@%dfkwtysfewi@1"],
+    	['Admin 4', "admin4@email.com", "!ss#@%fghwtyssewi@1"],
+    	['Admin 5', "admin5@email.com", "!ss#@%dffgrrhhewi@1"],
+    	['Admin 6', "admin6@email.com", "!ss#effvrvrhyjuji@1"],
+    	['Admin 7', "admin7@email.com", "!ss#@%dfkwtxrx4cgdd"],
     ];
 
     /**
@@ -33,12 +37,7 @@ class UsersTableSeeder extends BaseTableSeeder
     public function run(): void
     {
         foreach($this->data as $userData){
-            $user = $this->generateRow($userData);
-            
-            //Hash the password
-            $user['password'] = Hash::make($user['password']);
-
-            User::create($user);
+            User::create($this->generateRow($userData));
         }
     }
 

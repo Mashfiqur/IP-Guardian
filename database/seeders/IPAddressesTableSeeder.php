@@ -4,7 +4,6 @@ namespace Database\Seeders;
 
 use App\Models\IPAddress;
 use Database\Seeders\Base\BaseTableSeeder;
-use Illuminate\Support\Facades\Hash;
 
 class IPAddressesTableSeeder extends BaseTableSeeder
 {
@@ -33,9 +32,7 @@ class IPAddressesTableSeeder extends BaseTableSeeder
     public function run(): void
     {
         foreach($this->data as $ipAddressData){
-            $ipAddress = $this->generateRow($ipAddressData);
-            
-            IPAddress::create($ipAddress);
+            IPAddress::create($this->generateRow($ipAddressData));
         }
     }
 

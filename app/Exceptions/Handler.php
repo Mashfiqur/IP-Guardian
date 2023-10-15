@@ -3,71 +3,34 @@
 namespace App\Exceptions;
 
 use Illuminate\Auth\AuthenticationException;
-use Illuminate\Contracts\Routing\ResponseFactory;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
-use Throwable;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Illuminate\Http\Exceptions\ThrottleRequestsException;
 use Illuminate\Support\Facades\Log;
 use Symfony\Component\HttpKernel\Exception\HttpException;
+use Throwable;
 
-class Handler extends ExceptionHandler {
-
+class Handler extends ExceptionHandler
+{
     /**
-     * A list of the exception types that are not reported.
+     * The list of the inputs that are never flashed to the session on validation exceptions.
      *
-     * @var array
-     */
-    protected $dontReport = [
-        //
-    ];
-
-    /**
-     * A list of the inputs that are never flashed for validation exceptions.
-     *
-     * @var array
+     * @var array<int, string>
      */
     protected $dontFlash = [
+        'current_password',
         'password',
         'password_confirmation',
     ];
 
     /**
-     * A list of the exception types for which default rendering method will be applied
-     *
-     * @var array
+     * Register the exception handling callbacks for the application.
      */
-    protected $renderDefault = [
-        \Illuminate\Validation\ValidationException::class,
-    ];
-
-    /**
-     * Response to send for handling Exception
-     *
-     * @var object
-     */
-    protected $response;
-
-
-    /**
-     * @param Illuminate\Contracts\Routing\ResponseFactory $response
-     */
-    public function __construct(ResponseFactory $response)
+    public function register(): void
     {
-        $this->response = $response;
-    }
-
-    /**
-     * Report or log an exception.
-     *
-     * @param  \Throwable  $exception
-     * @return void
-     *
-     * @throws \Exception
-     */
-    public function report(Throwable $exception)
-    {
-        parent::report($exception);
+        $this->reportable(function (Throwable $e) {
+            //
+        });
     }
 
     /**
@@ -95,7 +58,7 @@ class Handler extends ExceptionHandler {
 
         // In future logging must be handled in effiecient way.
         Log::error($exception);
-        
+
         if($exception instanceof HttpException){
             return $this->handleHttpExecption($exception);
         }
@@ -109,35 +72,35 @@ class Handler extends ExceptionHandler {
     {
         $retryAfter = $exception->getHeaders()['Retry-After'] ?? 60;
         
-        return $this->response->json([
+        return response()->json([
             'message' => 'Too Many Attempts. Please try again in ' . $retryAfter . ' seconds.'
         ], 429);
     }
 
     protected function handleAuthenticationException(AuthenticationException $exception)
     {
-        return $this->response->json([
+        return response()->json([
             'message' => 'Authentication failed. Please login.'
         ], 401);
     }
 
     protected function handleModelNotFoundException(ModelNotFoundException $exception)
     {
-        return $this->response->json([
+        return response()->json([
             'message' => 'Sorry, the requested item could not be found.'
         ], 404);
     }
 
     protected function handleHttpExecption(HttpException $exception)
     {
-        return $this->response->json([
+        return response()->json([
             'message' => $exception->getMessage()
         ], $exception->getStatusCode());
     }
 
     protected function handleProductionError()
     {
-        return $this->response->json([
+        return response()->json([
             'message' => 'Unhandled system error has occurred',
         ], 500);
     }  
