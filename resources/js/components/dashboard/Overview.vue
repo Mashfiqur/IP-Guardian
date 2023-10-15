@@ -37,23 +37,6 @@
                 </div>
             </div>
         </div>
-        <div class="lg:ml-3 space-y-6 sm:mt-3 lg:mt-0">
-            <div class="pl-1 w-96 h-20 bg-yellow-400 rounded-lg shadow-md">
-                <div class="flex w-full h-full py-2 px-4 bg-white rounded-lg justify-between">
-                    <div class="my-auto">
-                        <p class="font-bold">IP Address (This Week)</p>
-                        <p class="text-lg">{{ dashboardStore.overview.total_ip_addresses_this_week }}</p>
-                    </div>
-                    <div class="my-auto">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
-                            stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z" />
-                        </svg>
-                    </div>
-                </div>
-            </div>
-        </div>
     </div>
 </template>
 

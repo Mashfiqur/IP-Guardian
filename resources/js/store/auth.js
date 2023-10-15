@@ -26,6 +26,11 @@ export const useAuthStore = defineStore({
           setAxiosAuthHeader();
           await this.authorization();
           router.push({name: 'dashboard'});
+          notify({
+            type: "success",
+            title: "Logged In",
+            text: "You have successfully logged in!",
+          });
         })
         .catch(error => {
           errorStore.setError(error)
@@ -52,6 +57,11 @@ export const useAuthStore = defineStore({
               localStorage.removeItem('bearer_token');
               this.resetAuthStore();
               router.push({name: 'login'});
+              notify({
+                type: "success",
+                title: "Logged Out",
+                text: "You have successfully logged out!",
+              });
             })
             .catch(error => {
               errorStore.setError(error)

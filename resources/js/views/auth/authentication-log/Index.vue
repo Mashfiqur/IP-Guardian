@@ -25,8 +25,9 @@
             </thead>
             <tbody>
                 <tr v-if="authenticationLogStore.logs.length" v-for="log in authenticationLogStore.logs" class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
-                    <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                        {{ log.user?.name }}
+                    <th scope="row" class="flex flex-column px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                        <img class="w-25 h-25 object-cover" width="25" height="25" src="@src/assets/avatar.png" alt="logo">
+                        <span class="ml-2 mt-1">{{ log.user?.name }}</span>
                     </th>
                     <td class="px-6 py-4">
                         {{ log.ip_address }}

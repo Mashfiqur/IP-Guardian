@@ -10,7 +10,6 @@ export const useDashboardStore = defineStore({
         overview: {
             total_ip_addresses: 0,
             total_ip_addresses_this_month: 0,
-            total_ip_addresses_this_week: 0,
         },
         recentLogins: []
     }),

@@ -19,49 +19,34 @@
                         <span class="self-center text-xl font-semibold sm:text-2xl whitespace-nowrap dark:text-white">IP Guardian</span>
                     </a>
                 </div>
-                <div class="flex items-center">
-                    <div class="flex items-center ml-3">
-                        <div>
-                            <button type="button"
-                                @click="showProfileMenu = !showProfileMenu"
-                                class="flex text-sm bg-gray-800 rounded-full focus:ring-4 focus:ring-gray-300 dark:focus:ring-gray-600"
-                            >
-                                <span class="sr-only">Open user menu</span>
-                                <img class="w-8 h-8 rounded-full" src="@src/assets/avatar.png" alt="logo">
-                            </button>
+                <div @mouseenter="showProfileMenu = true" @mouseleave="showProfileMenu = false" class="flex flex-shrink-0 items-center ml-auto">
+                    <button class="relative inline-flex items-center p-2 hover:bg-gray-100 focus:bg-gray-100 rounded-lg">
+                        <span class="h-12 w-12 ml-2 sm:ml-3 mr-2 bg-gray-100 rounded-full overflow-hidden">
+                            <img class="h-full w-full object-cover" src="@src/assets/avatar.png" alt="logo">
+                        </span>
+                    </button>
+                    <div class="absolute top-[72px] right-[12px] bg-white border rounded-md p-2 w-[240px]" v-if="showProfileMenu">
+                        <div class="px-4 py-3">
+                            <p class="text-sm text-gray-900 dark:text-white">
+                                {{ authStore.user?.name }}
+                            </p>
+                            <p class="text-sm font-medium text-gray-900 truncate dark:text-gray-300">
+                                {{ authStore.user?.email }}
+                            </p>
                         </div>
-                        <div class="z-50 hidden my-4 text-base list-none bg-white divide-y divide-gray-100 rounded shadow dark:bg-gray-700 dark:divide-gray-600" v-if="showProfileMenu">
-                            <div class="px-4 py-3" role="none">
-                                <p class="text-sm text-gray-900 dark:text-white" role="none">
-                                    Neil Sims
+                        <hr>
+                        <ul class="py-1">
+                            <li>
+                                <router-link to="/my-profile" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-600 dark:hover:text-white">
+                                    My Profile
+                                </router-link>
+                            </li>
+                            <li>
+                                <p @click="authStore.logout" class="cursor-pointer block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-600 dark:hover:text-white">
+                                    Sign out
                                 </p>
-                                <p class="text-sm font-medium text-gray-900 truncate dark:text-gray-300" role="none">
-                                    neil.sims@flowbite.com
-                                </p>
-                            </div>
-                            <ul class="py-1" role="none">
-                                <li>
-                                    <a href="#"
-                                        class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-600 dark:hover:text-white"
-                                        role="menuitem">Dashboard</a>
-                                </li>
-                                <li>
-                                    <a href="#"
-                                        class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-600 dark:hover:text-white"
-                                        role="menuitem">Settings</a>
-                                </li>
-                                <li>
-                                    <a href="#"
-                                        class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-600 dark:hover:text-white"
-                                        role="menuitem">Earnings</a>
-                                </li>
-                                <li>
-                                    <a href="#"
-                                        class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-600 dark:hover:text-white"
-                                        role="menuitem">Sign out</a>
-                                </li>
-                            </ul>
-                        </div>
+                            </li>
+                        </ul>
                     </div>
                 </div>
             </div>
@@ -72,7 +57,6 @@
 <script setup>
 import { ref } from 'vue';
 import { useAuthStore } from '@src/store/auth';
-import router from '@src/router';
 
 // Initiate store
 const authStore = useAuthStore();

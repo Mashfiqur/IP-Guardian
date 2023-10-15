@@ -11,9 +11,10 @@ export const IpAddressSchema = (action) => {
         return Yup.object().shape({
             ip: Yup.string()
                 .required('IP is required')
-                .test('ipAddress', 'Invalid IP address', (value) =>
-                    /^(?:[0-9]{1,3}\.){3}[0-9]{1,3}$/.test(value)
-                ),
+                .test('ipAddress', 'Invalid IP address', (value) => {
+                    const ipRegex = /^(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/;
+                    return ipRegex.test(value);
+                }),
             ...commonFields,
         });
     } else if (action === 2) {

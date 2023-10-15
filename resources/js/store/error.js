@@ -6,7 +6,7 @@ export const useErrorStore = defineStore({
     state: () => ({
         error: {},
         showableErrorCodes: [403,404, 500],
-        errorCode: 200,
+        errorCode: null,
     }),
     getters: {
         formErrors: state => {
@@ -31,16 +31,33 @@ export const useErrorStore = defineStore({
         setError(error) {
             this.error = error;
             if(error?.code == 'ERR_NETWORK'){
-                console.log('Connection is not ok');
+                notify({
+                    type: "error",
+                    title: "Network Error",
+                    text: 'Connection is not ok',
+                });
             }
 
-            this.errorCode = error?.response?.status != undefined ? error?.response?.status : 200;
+            this.errorCode = error?.response?.status != undefined ? error?.response?.status : null;
             this.handleError()
         },
         handleError(){
             if(this.errorCode == 401){
                 localStorage.removeItem('bearer_token');
                 router.push({name: 'login'});
+                notify({
+                    type: "error",
+                    title: "Unauthenticated",
+                    text: this.errorMessage,
+                });
+                return;
+            }
+            if(this.isShowableErrorCode){
+                notify({
+                    type: "error",
+                    title: "Unhandled Error",
+                    text: this.errorMessage,
+                });
             }
         },
         setErrorCode(code){

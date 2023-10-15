@@ -1,3 +1,16 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+
+.vue-notification.success {
+    background: rgb(34 211 238);
+    border-left-color: rgb(34 211 238);
+    color: rgb(23 23 23);
+}
+
+.vue-notification.error {
+    background: rgb(249 115 22);
+    border-left-color: rgb(249 115 22);
+    color: rgb(23 23 23);
+}

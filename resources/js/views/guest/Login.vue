@@ -31,8 +31,7 @@
                                 name="password" />
                             <FormInputErrorMessage :message="errors.password" />
                         </div>
-                        <FormInputErrorMessage v-if="errorStore.errorMessage && errorStore.errorCode != 422"
-                            :message="errorStore.errorMessage" />
+                        <FormInputErrorMessage :message="loginError"/>
                         <button type="submit"
                             class="w-full text-white bg-gray-600 hover:bg-slate-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">
                             <span v-if="!isLoading">
@@ -73,23 +72,36 @@ const authStore = useAuthStore();
 const errorStore = useErrorStore();
 
 const isLoading = ref(false);
+const loginError = ref(null);
 
 const setIsLoading = (status) => isLoading.value = status;
+const setLoginError = (errorMessage = null) => loginError.value = errorMessage;
 
 const loginHandle = async (values, actions) => {
     try {
         setIsLoading(true);
+        setLoginError();
 
         let payload = values;
 
         await authStore.login(payload);
         setIsLoading(false);
 
-        if (errorStore.errorCode == 422) actions.setErrors(errorStore.formErrors);
-        if (errorStore.errorCode == 200) actions.resetForm();
+        if(!errorStore.errorCode) { actions.resetForm(); }
+        
+        if (errorStore.errorCode == 422){
+            actions.setErrors(errorStore.formErrors);
+        }
+        else if (errorStore.errorCode && errorStore.errorMessage){
+            setLoginError(errorStore.errorMessage);
+        }
     }
     catch (e) {
-        console.log(e)
+        notify({
+            type:error,
+            title: "Unhandled Error",
+            text: e.message
+        })
         setIsLoading(false);
     }
 }

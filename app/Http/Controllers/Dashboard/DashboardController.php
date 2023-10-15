@@ -18,14 +18,12 @@ class DashboardController extends Controller
             ->select([
                 DB::raw('COUNT(*) as totalIPAddresses'),
                 DB::raw('COUNT(CASE WHEN created_at >= DATE_FORMAT(NOW(), "%Y-%m-01") THEN 1 ELSE NULL END) as totalIPAddressesThisMonth'),
-                DB::raw('COUNT(CASE WHEN created_at >= DATE_ADD(NOW(), INTERVAL -WEEKDAY(NOW()) DAY) THEN 1 ELSE NULL END) as totalIPAddressesThisWeek'),
             ])
             ->first();
         
         return response()->json([
             'total_ip_addresses'            => $overview->totalIPAddresses,
             'total_ip_addresses_this_month' => $overview->totalIPAddressesThisMonth,
-            'total_ip_addresses_this_week'  => $overview->totalIPAddressesThisWeek,
         ]);
     }
 

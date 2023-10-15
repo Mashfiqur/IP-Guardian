@@ -48,8 +48,11 @@ class LogoutSuccessfulListener
         $userAgent = $this->request->userAgent();
 
         $authenticationLog = $user->authentication_logs()
-            ->whereIpAddress($ip)
-            ->whereUserAgent($userAgent)
+            ->where([
+                ['ip_address', $ip],
+                ['user_agent', $userAgent],
+            ])
+            ->orderByDesc('created_at')
             ->first();
 
         // Create a new authentication log of the user if not exists without login time

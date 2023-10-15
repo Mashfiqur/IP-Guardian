@@ -1,5 +1,5 @@
 <template>
-    <div class="flex items-center justify-between p-4">
+    <div class="flex items-center justify-between py-4">
         <h1 class="flex text-lg font-semibold">
             <img src="@src/assets/angle-left.svg" class="cursor-pointer" alt="IP" width="20" @click="router.push({name: 'ip-address' })">
             <span class="text-gray-600">{{ id === undefined ? 'Add New' : 'Edit'}} IP Address</span>
@@ -63,7 +63,7 @@
             v-if="ipAddressError"
             :message="ipAddressError" 
         />
-        <button type="submit" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 mt-3">Save</button>
+        <button type="submit" class="mt-3 text-white bg-gray-600 hover:bg-slate-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">Save</button>
     </Form>
 </template>
 
@@ -77,7 +77,6 @@ import { useIPAddressStore } from '@src/store/ipAddress';
 import { useErrorStore } from '@src/store/error';
 import router from '@src/router';
 
-
 // Initiate stores
 const ipAddressStore = useIPAddressStore();
 const errorStore = useErrorStore();
@@ -88,7 +87,9 @@ const route = useRoute();
 
 const id = route.params.id;
 const ipAddressError = ref(null);
+const isLoading = ref(false);
 
+const setIsLoading = (status) => isLoading.value = status;
 const setIPAddressError = (errorMessage = null) => ipAddressError.value = errorMessage;
 
 onMounted(async() => {
@@ -97,6 +98,7 @@ onMounted(async() => {
 
 const ipAddressHandle = async(values, actions) => {
     try {
+        setIsLoading(true);
         setIPAddressError();
 
         const payload = values;
@@ -109,17 +111,19 @@ const ipAddressHandle = async(values, actions) => {
             await ipAddressStore.storeIPAddress(payload);
         }
 
+        setIsLoading(false);
+
+        if (!errorStore.errorCode) { actions.resetForm(); }
+
         if (errorStore.errorCode === 422) {
             actions.setErrors(errorStore.formErrors);
         } 
-        else if (errorStore.errorCode !== 422 && errorStore.errorMessage) {
+        else if (errorStore.errorCode && errorStore.errorMessage) {
             setIPAddressError(errorStore.errorMessage);
         } 
-        else if (errorStore.errorCode === 200) {
-            actions.resetForm();
-        }
     } catch (e) {
         setIPAddressError(e.message);
+        setIsLoading(false);
     }
 };
 </script>

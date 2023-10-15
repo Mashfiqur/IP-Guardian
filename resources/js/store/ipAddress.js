@@ -52,6 +52,11 @@ export const useIPAddressStore = defineStore({
             return ipAddressService.store(payload)
                 .then(response => {
                     router.push({name: 'ip-address'});
+                    notify({
+                        type: "success",
+                        title: "Created",
+                        text: "IP has been successfully created!",
+                    });
                 })
                 .catch(error => {
                     errorStore.setError(error)
@@ -74,6 +79,11 @@ export const useIPAddressStore = defineStore({
             return ipAddressService.update(id, payload)
                 .then(response => {
                     router.push({name: 'ip-address'});
+                    notify({
+                        type: "success",
+                        title: "Updated",
+                        text: "IP has been successfully updated!",
+                    });
                 })
                 .catch(error => {
                     errorStore.setError(error)

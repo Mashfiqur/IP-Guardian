@@ -33,6 +33,11 @@ export const useProfileStore = defineStore({
       return profileService.updateProfile(payload)
             .then(response => {
               this.getProfile();
+              notify({
+                type: "success",
+                title: "Updated",
+                text: "Your profile has successfully updated!",
+              });
             })
             .catch(error => {
               errorStore.setError(error)
